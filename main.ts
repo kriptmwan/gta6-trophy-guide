@@ -1,14 +1,14 @@
 // Hand-in program for the gta6-trophy-guide-01 entry (Node 22, standard library only).
 //
-// What it does: it takes the guide that lives beside this file — the static app/ folder
-// and the screenshots/ folder — copies both into the output directory, and writes the
-// dossier.json summary there with the vendored make.fun library. The grader runs this
-// file twice and requires both runs to produce byte-identical output, so every step
-// below is a plain deterministic copy: no timestamps, no random values, no network.
+// It takes the guide that lives beside this file — the static app/ folder and the
+// screenshots/ folder — copies both into the output directory, and writes the
+// dossier.json summary there with the vendored make.fun library. The grader runs
+// this file twice and requires both runs to produce byte-identical output, so every
+// step below is a plain deterministic copy: no timestamps, no random values, no network.
 //
-// Run it locally with:
+// Try it locally with:
 //   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
-// and serve the guide itself for a browser with:
+// and serve the guide itself in a browser with:
 //   node serve.ts        (then open http://localhost:8080)
 
 import { cpSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
