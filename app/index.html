@@ -1,92 +1,111 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Leonida Trophy Guide — GTA 6 Platinum Roadmap</title>
+<title>Leonida Trophy Guide — GTA VI · All 55 PS5 Trophies</title>
+<meta name="description" content="An offline trophy guide and tracker for Grand Theft Auto VI on PS5: all 55 trophies, a roadmap to the platinum, missable flags, and a checklist saved in your browser.">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="hero">
-  <p class="eyebrow">Grand Theft Auto VI · PlayStation 5 · Offline guide &amp; tracker</p>
-  <h1>Leonida Trophy Guide</h1>
-  <p class="lede">Every one of the 55 trophies, with a guide in my own words and its sources. Track your run to the platinum, hide the spoilers until you earn them, and never lose the one missable trophy.</p>
-  <div class="counts" id="counts">Loading the trophy list…</div>
-  <div class="progress-wrap">
-    <div class="progress-bar"><span id="progressFill"></span></div>
-    <p id="progressText">0 of 55 earned</p>
+<header class="top">
+  <div class="wrap">
+    <p class="kicker">Grand Theft Auto VI · PlayStation 5 · Offline guide</p>
+    <h1>Leonida Trophy Guide</h1>
+    <p class="sub">Every one of the 55 trophies — 1 Platinum, 2 Gold, 6 Silver, 46 Bronze — with a guide in the author's own words, its sources, and a checklist that lives in your browser. No account, no network, no spoilers until you ask for them.</p>
+    <div class="progress" id="progress" aria-live="polite">
+      <div class="big"><span id="earnedCount">0</span><span class="of"> / 55 earned</span></div>
+      <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="55" aria-valuenow="0" id="progressBar"><div class="fill" id="progressFill" style="width:0%"></div></div>
+      <p class="grades" id="gradeCounts"></p>
+      <p class="nextup" id="nextUp"></p>
+    </div>
+    <nav class="tabs" aria-label="Guide sections">
+      <button type="button" data-view="checklist" class="tab active" aria-current="page">Checklist</button>
+      <button type="button" data-view="roadmap" class="tab">Roadmap to Platinum</button>
+      <button type="button" data-view="missables" class="tab">Missables <span class="badge" id="missableBadge">1</span></button>
+    </nav>
+    <label class="spoiler"><input type="checkbox" id="spoilerToggle" checked> <span>Hide story spoilers — names and descriptions of story trophies stay hidden until you earn them</span></label>
   </div>
 </header>
 
-<nav class="tabs" id="tabs">
-  <button data-view="checklist" class="active">Checklist</button>
-  <button data-view="roadmap">Roadmap to Platinum</button>
-  <button data-view="missables">Missables</button>
-  <button data-view="nextup">Next up</button>
-</nav>
-
-<section class="toolbar" id="toolbar">
-  <input id="search" type="search" placeholder="Search trophies by name or description…" aria-label="Search trophies">
-  <select id="gradeFilter" aria-label="Filter by grade">
-    <option value="">All grades</option>
-    <option value="platinum">Platinum</option>
-    <option value="gold">Gold</option>
-    <option value="silver">Silver</option>
-    <option value="bronze">Bronze</option>
-  </select>
-  <select id="kindFilter" aria-label="Filter by kind">
-    <option value="">All kinds</option>
-    <option value="story">Story</option>
-    <option value="side">Side strands</option>
-    <option value="collectibles">Collectibles</option>
-    <option value="activities">Activities</option>
-    <option value="crime">Crime</option>
-    <option value="exploration">Exploration</option>
-    <option value="completion">Completion</option>
-    <option value="misc">Everything else</option>
-  </select>
-  <label class="check"><input id="spoilerToggle" type="checkbox" checked> Hide story spoilers</label>
-  <label class="check"><input id="earnedOnly" type="checkbox"> Earned only</label>
-  <button id="exportBtn" type="button">Export progress</button>
-  <button id="importBtn" type="button">Import progress</button>
-  <input id="importFile" type="file" accept=".json,application/json" hidden>
-  <button id="resetBtn" type="button">Reset</button>
-</section>
-
-<main>
+<main class="wrap">
   <section id="view-checklist" class="view">
-    <div class="layout">
-      <ul id="trophyList" class="trophy-list"></ul>
-      <aside id="detail" class="detail">
-        <p class="detail-empty">Pick a trophy to see its guide and sources.</p>
-      </aside>
+    <div class="controls">
+      <input type="search" id="search" placeholder="Search trophies by name or description…" aria-label="Search trophies">
+      <select id="kindFilter" aria-label="Filter by kind">
+        <option value="all">All kinds</option>
+        <option value="story">Story</option>
+        <option value="stranger">Strangers &amp; Freaks</option>
+        <option value="collectible">Collectibles</option>
+        <option value="activity">Activities</option>
+        <option value="robbery">Robberies</option>
+        <option value="combat">Combat</option>
+        <option value="exploration">Exploration</option>
+        <option value="platinum">Platinum</option>
+        <option value="online">Online — none in this game</option>
+      </select>
+      <select id="gradeFilter" aria-label="Filter by grade">
+        <option value="all">All grades</option>
+        <option value="platinum">Platinum</option>
+        <option value="gold">Gold</option>
+        <option value="silver">Silver</option>
+        <option value="bronze">Bronze</option>
+      </select>
+      <label class="check"><input type="checkbox" id="hideEarned"> Hide earned</label>
+      <button type="button" id="exportBtn">Export progress</button>
+      <button type="button" id="importBtn">Import progress</button>
+      <input type="file" id="importFile" accept="application/json,.json" hidden>
     </div>
+    <p class="hint">Tick a trophy when you earn it — progress is saved in this browser. Click any trophy to open its full guide and sources. There are no online trophies in GTA VI: all 55 are single-player and offline.</p>
+    <ul class="list" id="trophyList"></ul>
+    <p class="empty" id="emptyNote" hidden>No trophies match these filters.</p>
+    <article class="detail" id="detail" hidden></article>
   </section>
 
   <section id="view-roadmap" class="view" hidden>
-    <h2>Roadmap to the platinum</h2>
-    <p>Five stages, in order. The story hands you 13 trophies, the side strands add 7 more, and the rest is cleanup. Roughly 200 hours for a completionist run; the story alone is about 50–60 hours.</p>
-    <ol class="roadmap" id="roadmapList"></ol>
+    <h2>Roadmap to the Platinum</h2>
+    <p class="lede">About 200 hours in total: 60–80 for the story, around 100 for the 100% checklist, and roughly 10 for cleanup. Difficulty 4/10. One playthrough is enough — there are no difficulty settings and no mission replay, so keep a separate save at the start and end of every chapter.</p>
+    <ol class="steps">
+      <li><h3>Step 1 — Story and side missions <span class="time">60–80 hours</span></h3>
+        <p>Play the story and pick up optional missions as they appear (purple icons, plus black icons with pink letters). Along the way, scan every new vehicle with WAiNK and study animals through binoculars. <strong>Do the Chapter 1 balcony meditation</strong> for Positive Mental Attitude — it is the one possibly missable trophy. Start every Stranger chain as soon as it unlocks.</p></li>
+      <li><h3>Step 2 — The 100% checklist and Challenges <span class="time">~100 hours</span></h3>
+        <p>After the ending, Progress &gt; Stats gains the 100% Completion entry. Only 70 of the 80 Challenges are needed, most side quests are not required, and collectibles count only partly. You <em>do</em> need every robbery, underwater discovery, shooting range, drone race and Bret quest. Thresholds are lenient — stunts 300 (trophy 250), races won 30 (trophy 20), Challenges 70 (trophy 50), card sets 15 (trophy 3), bank vaults 8 (trophy 5).</p></li>
+      <li><h3>Step 3 — Strangers &amp; Freaks and cleanup <span class="time">~10 hours</span></h3>
+        <p>The checklist does not ask for these quests, so they are usually what is left, plus any stray trophies that did not pop on their own. Finish the stranger chains, then mop up the last collectibles.</p></li>
+    </ol>
+    <h3>Before you start</h3>
+    <ul class="notes">
+      <li><strong>Saves:</strong> 15 manual slots plus 1 autosave. With no mission replay, keep a separate save at the start and end of every chapter (10 slots) and rotate the other 5 in free roam after the ending.</li>
+      <li><strong>Cheats disable trophies and saving.</strong> Cheats only unlock after the story — keep them off the platinum save.</li>
+      <li><strong>Avoid the “Irredeemable” criminal profile:</strong> it is permanent and makes police more aggressive.</li>
+      <li><strong>Every character tied to a trophy is still around in free roam after the ending.</strong> Jason and Lucia's relationship does not matter for any trophy.</li>
+    </ul>
+    <p class="src">Roadmap sources: <a href="https://www.powerpyx.com/gta-6-trophy-guide-roadmap/">PowerPyx — GTA 6 Trophy Guide &amp; Roadmap</a> · <a href="https://gamemapa.com/en/gta-6/guides/gta-6-trophy-achievement-list/">Gamemapa — All 55 GTA 6 Trophies</a></p>
   </section>
 
   <section id="view-missables" class="view" hidden>
-    <h2>Missable trophies</h2>
-    <p>Only one trophy in the whole list can be missed. Everything else can be cleaned up after the story, in free roam.</p>
+    <h2>Missables</h2>
+    <p class="lede">Only one trophy is flagged as possibly missable. Everything else can be earned in free roam after the ending.</p>
     <div id="missableList"></div>
-  </section>
-
-  <section id="view-nextup" class="view" hidden>
-    <h2>Next up</h2>
-    <p>The planner picks your next trophies from what you have already earned: story first, then side strands, then the quick wins, then the long grinds.</p>
-    <ol id="nextUpList" class="nextup"></ol>
+    <h3>Start stranger chains early</h3>
+    <p>Stranger mission chains behind five hidden trophies have windows linked to story progress. Begin each chain as soon as it unlocks — Andy (Chapter 3), Kenton (Chapter 1), Billy (Chapter 2), Randy (Chapter 3) and Tyrone (Chapter 3) — rather than leaving them for after the ending.</p>
+    <p class="src">Missable source: <a href="https://www.powerpyx.com/gta-6-trophy-guide-roadmap/">PowerPyx</a> and <a href="https://egamers.io/gta-6-trophy-list-all-55-trophies-and-achievements-plus-the-hardest-ones/">EGamers</a> (via GTABase cross-checks).</p>
   </section>
 </main>
 
-<footer>
-  <p>Names, descriptions, grades and hidden flags follow the official PlayStation list as published by Exophase and PSNProfiles. Guides are written in my own words and cite their sources beside each trophy. No Rockstar artwork is used; the look is my own. Works offline — progress lives in your browser only.</p>
-  <p>Sources: <a href="https://www.exophase.com/game/grand-theft-auto-vi-psn/trophies/">Exophase — Grand Theft Auto VI Trophies</a> · <a href="https://psnprofiles.com/trophies/43531-grand-theft-auto-vi">PSNProfiles — Grand Theft Auto VI</a> · <a href="https://www.pushsquare.com/guides/gta-6-trophy-guide-and-roadmap">Push Square — GTA 6 Trophy Guide &amp; Roadmap</a></p>
+<footer class="wrap">
+  <h2>Sources</h2>
+  <p>Trophy names, descriptions and grades are the official PlayStation list as published on Exophase and PSNProfiles. Guides are the author's own words, written from the sources below — never copied from them. Where a method is unconfirmed, the guide says so instead of inventing steps.</p>
+  <ul class="sources">
+    <li><a href="https://www.powerpyx.com/gta-6-trophy-guide-roadmap/">PowerPyx — GTA 6 Trophy Guide &amp; Roadmap</a></li>
+    <li><a href="https://www.gamesradar.com/gta-6-trophy-achievement-list/">GamesRadar+ — GTA 6 Trophy and Achievement list</a></li>
+    <li><a href="https://egamers.io/gta-6-trophy-list-all-55-trophies-and-achievements-plus-the-hardest-ones/">EGamers — GTA 6 Trophy List: All 55 Trophies And Achievements</a></li>
+    <li><a href="https://gamemapa.com/en/gta-6/guides/gta-6-trophy-achievement-list/">Gamemapa — All 55 GTA 6 Trophies: Full List, Gamerscore and Platinum Roadmap</a></li>
+    <li><a href="https://www.keengamer.com/articles/guides/gta-6-trophy-guide-platinum-roadmap-all-55-trophies/">Keengamer — GTA 6 Trophy Guide &amp; Platinum Roadmap – All 55 Trophies</a></li>
+  </ul>
+  <p class="fine">An unofficial fan guide. Grand Theft Auto, GTA and Rockstar are trademarks of their owners; this guide uses no Rockstar logo or official artwork and is not affiliated with or endorsed by Rockstar Games. Works fully offline — it makes no network requests.</p>
 </footer>
 
-<script type="module" src="app.js"></script>
+<script src="app.js" defer></script>
 </body>
 </html>
