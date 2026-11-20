@@ -4,16 +4,16 @@
 [![rank](https://make.fun/badge/gta6-trophy-guide-01/kriptmwan/gta6-trophy-guide/rank.svg)](https://make.fun/bounty/gta6-trophy-guide-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
 [![reward](https://make.fun/badge/gta6-trophy-guide-01/kriptmwan/gta6-trophy-guide/reward.svg)](https://make.fun/bounty/gta6-trophy-guide-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
 
-An offline guide and tracker for the 55 PlayStation 5 trophies of Grand Theft Auto VI: every trophy with its official name, description and grade, a guide in our own words with cited sources, a three-step roadmap to the platinum, a flag for the one possibly missable trophy, and a checklist that saves in the browser.
+A complete offline tracker for every PlayStation 5 trophy in Grand Theft Auto VI: all 55 trophies with their official names, descriptions and grades, a written guide for each one with its sources cited, a three-step route to the Platinum, a warning for the single trophy that might be missable, and a checklist that remembers what you have earned.
 
-## What it does
+## What you get
 
-- **All 55 trophies** — 1 Platinum, 2 Gold, 6 Silver, 46 Bronze, 28 of them hidden on PlayStation, zero online. Names, descriptions and grades are the official list as carried by Exophase and PSNProfiles.
-- **A guide for every trophy**, written for this page, with its sources named and linked beside it (PowerPyx, Gamemapa, EGamers, Keengamer, GTABase, Push Square, Insider Gaming, GTA Spotter). Where no guide has confirmed a method yet — five trophies — the page says so instead of guessing.
-- **Roadmap to the platinum** — story and side missions (60–80 hours), the 100% checklist and Challenges (~100 hours), Strangers & Freaks and cleanup (~10 hours) — plus the practical warnings: no mission replay, chapter saves, and cheats disabling trophies.
-- **Missable flags** — Positive Mental Attitude is the one trophy two guides flag as possibly missable (the Chapter 1 balcony meditation). It is flagged on the trophy, in a banner, and in the roadmap.
-- **Tracker** — tick trophies off and the progress stays in localStorage; export it to a file and import it back. Filter by kind (story, missable, collectibles, activities, side quests, robbery, open-world mischief, money, 100% & stunts, online), by grade, or by search. A spoiler setting hides the names and descriptions of story trophies until they are earned.
-- **Offline** — plain static files under `app/`, no build step, no network requests at run time. The look is original CSS; no Rockstar logo or artwork is used.
+- **The full set of 55** — 1 Platinum, 2 Gold, 6 Silver, 46 Bronze, 28 hidden on PlayStation, none of them online. Names, descriptions and grades follow the official list as reported by Exophase and PSNProfiles.
+- **A method for each trophy**, written for this guide and credited to its sources beside it (PowerPyx, Gamemapa, EGamers, Keengamer, GTABase, Push Square, Insider Gaming, GTA Spotter). For the five trophies whose method no guide has confirmed yet, the page admits that rather than inventing one.
+- **A Platinum roadmap** — story and side missions (60–80 hours), the 100% checklist and Challenges (about 100 hours), Strangers & Freaks plus cleanup (about 10 hours) — along with the practical cautions: missions cannot be replayed, keep chapter saves, and cheats switch trophies off.
+- **Missable warning** — Positive Mental Attitude is the one trophy two guides call possibly missable (the Chapter 1 balcony meditation). It carries a flag on the trophy itself, in a banner, and in the roadmap.
+- **A tracker** — check trophies off and your progress is kept in localStorage; you can export it to a file and import it again later. Filter by type (story, missable, collectibles, activities, side quests, robbery, open-world mischief, money, 100% & stunts, online), by grade, or by searching. A spoiler switch hides the names and descriptions of story trophies until you have earned them.
+- **Fully offline** — plain static files in `app/`, no build step, nothing fetched over the network while it runs. The styling is original CSS; no Rockstar logo or artwork appears anywhere.
 
 ## Run it
 
@@ -21,7 +21,7 @@ An offline guide and tracker for the 55 PlayStation 5 trophies of Grand Theft Au
 node serve.ts
 ```
 
-Then open http://localhost:8080. (Node 22 or later; the server is a development convenience, any static server works with `app/` at its root.)
+Then open http://localhost:8080. (Node 22 or newer; the server is just a convenience for development — any static server works with `app/` at its root.)
 
 Hand it in with `main.ts` (Node 22, standard library only):
 
@@ -29,18 +29,18 @@ Hand it in with `main.ts` (Node 22, standard library only):
 mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 ```
 
-It copies `app/` and `screenshots/` to the output directory and writes `dossier.json` with the vendored make.fun library. Running it twice produces identical bytes.
+That copies `app/` and `screenshots/` into the output folder and writes `dossier.json` using the vendored make.fun library. Running it twice gives identical bytes.
 
 ## Screenshots
 
-In `screenshots/`, taken of the running app in a desktop browser at 1280×800:
+In `screenshots/`, captured from the running app in a desktop browser at 1280×800:
 
 1. `1-checklist.jpg` — the checklist with the Platinum guide open and its sources (spoilers off).
 2. `2-roadmap.jpg` — the roadmap to the platinum.
 3. `3-spoiler.jpg` — spoiler mode on: story trophies hidden until earned.
 4. `4-silver.jpg` — the Silver filter with a guide open.
 
-`shots.json` records the view each screenshot was taken of.
+`shots.json` records which view each screenshot shows.
 
 ## Sources
 
