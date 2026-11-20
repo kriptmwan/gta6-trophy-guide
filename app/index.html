@@ -3,66 +3,88 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Leonida Trophy Guide — GTA VI · every PS5 trophy</title>
-<meta name="description" content="Offline checklist and tracker for all 55 PlayStation 5 trophies in Grand Theft Auto VI: official names, descriptions and grades, a route to the Platinum, missable flags, and a cited method for every trophy.">
+<title>Leonida Trophy Guide — GTA 6 Platinum Roadmap</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="masthead">
-  <div class="masthead-text">
-    <p class="kicker">Grand Theft Auto VI · PlayStation 5</p>
-    <h1>Leonida Trophy Guide</h1>
-    <p class="subtitle">Every one of the 55 trophies — 1 Platinum, 2 Gold, 6 Silver, 46 Bronze. Offline, single-player, one playthrough. No online trophies.</p>
-  </div>
-  <div class="progress-card" id="progressCard">
-    <p class="progress-big"><span id="earnedCount">0</span><span class="progress-of"> / 55 earned</span></p>
-    <div class="progress-bar" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
-    <p class="progress-grades" id="gradeCounts"></p>
-    <p class="progress-next" id="nextUp"></p>
+<header class="hero">
+  <p class="eyebrow">Grand Theft Auto VI · PlayStation 5 · Offline guide &amp; tracker</p>
+  <h1>Leonida Trophy Guide</h1>
+  <p class="lede">Every one of the 55 trophies, with a guide in my own words and its sources. Track your run to the platinum, hide the spoilers until you earn them, and never lose the one missable trophy.</p>
+  <div class="counts" id="counts">Loading the trophy list…</div>
+  <div class="progress-wrap">
+    <div class="progress-bar"><span id="progressFill"></span></div>
+    <p id="progressText">0 of 55 earned</p>
   </div>
 </header>
 
-<nav class="controls" aria-label="Tracker controls">
-  <label class="search">Search <input id="search" type="search" placeholder="Trophy name or keyword…" autocomplete="off"></label>
-  <label>Grade
-    <select id="grade">
-      <option value="all">All grades</option>
-      <option value="platinum">Platinum</option>
-      <option value="gold">Gold</option>
-      <option value="silver">Silver</option>
-      <option value="bronze">Bronze</option>
-    </select>
-  </label>
-  <label class="check"><input id="hideEarned" type="checkbox"> Hide earned</label>
-  <label class="check spoiler-check"><input id="spoilerToggle" type="checkbox" checked> Hide story spoilers</label>
-  <button id="export" type="button">Export progress</button>
-  <label class="import">Import progress <input id="import" type="file" accept="application/json"></label>
+<nav class="tabs" id="tabs">
+  <button data-view="checklist" class="active">Checklist</button>
+  <button data-view="roadmap">Roadmap to Platinum</button>
+  <button data-view="missables">Missables</button>
+  <button data-view="nextup">Next up</button>
 </nav>
 
-<div class="kind-chips" id="kindChips" role="group" aria-label="Filter by kind"></div>
-
-<section class="missable-banner" id="missableBanner" aria-label="Missable trophy warning"></section>
-
-<section class="roadmap" id="roadmap" aria-label="Roadmap to the platinum">
-  <h2>Roadmap to the Platinum <span class="roadmap-time">≈ 200 hours · difficulty 4/10 · 1 playthrough</span></h2>
-  <details id="roadmapDetails">
-    <summary>Read the 3 steps — story, 100% checklist, cleanup</summary>
-    <ol class="roadmap-steps" id="roadmapSteps"></ol>
-    <p class="roadmap-note">No mission replay: keep a separate save at the start and end of every chapter (10 slots of your 15 manual saves). Cheats disable trophies and saving — keep them off your platinum save. Track anything in-game at Touchpad &gt; Progress.</p>
-  </details>
+<section class="toolbar" id="toolbar">
+  <input id="search" type="search" placeholder="Search trophies by name or description…" aria-label="Search trophies">
+  <select id="gradeFilter" aria-label="Filter by grade">
+    <option value="">All grades</option>
+    <option value="platinum">Platinum</option>
+    <option value="gold">Gold</option>
+    <option value="silver">Silver</option>
+    <option value="bronze">Bronze</option>
+  </select>
+  <select id="kindFilter" aria-label="Filter by kind">
+    <option value="">All kinds</option>
+    <option value="story">Story</option>
+    <option value="side">Side strands</option>
+    <option value="collectibles">Collectibles</option>
+    <option value="activities">Activities</option>
+    <option value="crime">Crime</option>
+    <option value="exploration">Exploration</option>
+    <option value="completion">Completion</option>
+    <option value="misc">Everything else</option>
+  </select>
+  <label class="check"><input id="spoilerToggle" type="checkbox" checked> Hide story spoilers</label>
+  <label class="check"><input id="earnedOnly" type="checkbox"> Earned only</label>
+  <button id="exportBtn" type="button">Export progress</button>
+  <button id="importBtn" type="button">Import progress</button>
+  <input id="importFile" type="file" accept=".json,application/json" hidden>
+  <button id="resetBtn" type="button">Reset</button>
 </section>
 
 <main>
-  <p class="list-meta" id="listMeta"></p>
-  <div class="trophy-list" id="trophyList"></div>
-  <p class="empty-note" id="emptyNote" hidden>Nothing matches these filters. Clear the search or pick another kind.</p>
+  <section id="view-checklist" class="view">
+    <div class="layout">
+      <ul id="trophyList" class="trophy-list"></ul>
+      <aside id="detail" class="detail">
+        <p class="detail-empty">Pick a trophy to see its guide and sources.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="view-roadmap" class="view" hidden>
+    <h2>Roadmap to the platinum</h2>
+    <p>Five stages, in order. The story hands you 13 trophies, the side strands add 7 more, and the rest is cleanup. Roughly 200 hours for a completionist run; the story alone is about 50–60 hours.</p>
+    <ol class="roadmap" id="roadmapList"></ol>
+  </section>
+
+  <section id="view-missables" class="view" hidden>
+    <h2>Missable trophies</h2>
+    <p>Only one trophy in the whole list can be missed. Everything else can be cleaned up after the story, in free roam.</p>
+    <div id="missableList"></div>
+  </section>
+
+  <section id="view-nextup" class="view" hidden>
+    <h2>Next up</h2>
+    <p>The planner picks your next trophies from what you have already earned: story first, then side strands, then the quick wins, then the long grinds.</p>
+    <ol id="nextUpList" class="nextup"></ol>
+  </section>
 </main>
 
 <footer>
-  <h2>Sources &amp; accuracy</h2>
-  <p id="accuracyNote"></p>
-  <ul class="source-list" id="sourceList"></ul>
-  <p class="fineprint">Trophy names and descriptions appear exactly as PlayStation publishes them. Each method on this page is written for this guide in its own words and names its sources; no method text is copied from them. This page fetches nothing over the network and works offline. Not affiliated with Rockstar Games; no Rockstar logo or artwork is used.</p>
+  <p>Names, descriptions, grades and hidden flags follow the official PlayStation list as published by Exophase and PSNProfiles. Guides are written in my own words and cite their sources beside each trophy. No Rockstar artwork is used; the look is my own. Works offline — progress lives in your browser only.</p>
+  <p>Sources: <a href="https://www.exophase.com/game/grand-theft-auto-vi-psn/trophies/">Exophase — Grand Theft Auto VI Trophies</a> · <a href="https://psnprofiles.com/trophies/43531-grand-theft-auto-vi">PSNProfiles — Grand Theft Auto VI</a> · <a href="https://www.pushsquare.com/guides/gta-6-trophy-guide-and-roadmap">Push Square — GTA 6 Trophy Guide &amp; Roadmap</a></p>
 </footer>
 
 <script type="module" src="app.js"></script>
