@@ -3,23 +3,68 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GTA VI trophy checklist</title>
+<title>Leonida Trophy Guide — GTA VI · all 55 PS5 trophies</title>
+<meta name="description" content="Offline guide and tracker for the 55 PlayStation 5 trophies of Grand Theft Auto VI: official names, descriptions and grades, a roadmap to the platinum, missable flags, and a cited guide for every trophy.">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <h1>GTA VI trophy checklist</h1>
-  <p id="progress">0 of 55 earned</p>
+<header class="masthead">
+  <div class="masthead-text">
+    <p class="kicker">Grand Theft Auto VI · PlayStation 5</p>
+    <h1>Leonida Trophy Guide</h1>
+    <p class="subtitle">All 55 trophies — 1 Platinum, 2 Gold, 6 Silver, 46 Bronze. Offline, single-player, one playthrough. No online trophies.</p>
+  </div>
+  <div class="progress-card" id="progressCard">
+    <p class="progress-big"><span id="earnedCount">0</span><span class="progress-of"> / 55 earned</span></p>
+    <div class="progress-bar" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
+    <p class="progress-grades" id="gradeCounts"></p>
+    <p class="progress-next" id="nextUp"></p>
+  </div>
 </header>
-<div class="controls">
-  <label>Grade <select id="grade"><option value="all">All</option><option value="platinum">Platinum</option><option value="gold">Gold</option><option value="silver">Silver</option><option value="bronze">Bronze</option></select></label>
+
+<nav class="controls" aria-label="Tracker controls">
+  <label class="search">Search <input id="search" type="search" placeholder="Trophy name or keyword…" autocomplete="off"></label>
+  <label>Grade
+    <select id="grade">
+      <option value="all">All grades</option>
+      <option value="platinum">Platinum</option>
+      <option value="gold">Gold</option>
+      <option value="silver">Silver</option>
+      <option value="bronze">Bronze</option>
+    </select>
+  </label>
+  <label class="check"><input id="hideEarned" type="checkbox"> Hide earned</label>
+  <label class="check spoiler-check"><input id="spoilerToggle" type="checkbox" checked> Hide story spoilers</label>
   <button id="export" type="button">Export progress</button>
   <label class="import">Import progress <input id="import" type="file" accept="application/json"></label>
-</div>
-<table>
-  <thead><tr><th>Earned</th><th>Trophy</th><th>Grade</th><th>How to get it</th></tr></thead>
-  <tbody id="rows"></tbody>
-</table>
+</nav>
+
+<div class="kind-chips" id="kindChips" role="group" aria-label="Filter by kind"></div>
+
+<section class="missable-banner" id="missableBanner" aria-label="Missable trophy warning"></section>
+
+<section class="roadmap" id="roadmap" aria-label="Roadmap to the platinum">
+  <h2>Roadmap to the Platinum <span class="roadmap-time">≈ 200 hours · difficulty 4/10 · 1 playthrough</span></h2>
+  <details id="roadmapDetails">
+    <summary>Read the 3 steps — story, 100% checklist, cleanup</summary>
+    <ol class="roadmap-steps" id="roadmapSteps"></ol>
+    <p class="roadmap-note">No mission replay: keep a separate save at the start and end of every chapter (10 slots of your 15 manual saves). Cheats disable trophies and saving — keep them off your platinum save. Track anything in-game at Touchpad &gt; Progress.</p>
+  </details>
+</section>
+
+<main>
+  <p class="list-meta" id="listMeta"></p>
+  <div class="trophy-list" id="trophyList"></div>
+  <p class="empty-note" id="emptyNote" hidden>No trophies match these filters. Try clearing the search or choosing another kind.</p>
+</main>
+
+<footer>
+  <h2>Sources &amp; accuracy</h2>
+  <p id="accuracyNote"></p>
+  <ul class="source-list" id="sourceList"></ul>
+  <p class="fineprint">Trophy names and descriptions are shown as PlayStation publishes them. Every guide above is written for this page in its own words and names its sources; no guide text is copied from them. This page loads nothing over the network and works offline. Not affiliated with Rockstar Games; no Rockstar logo or artwork is used.</p>
+</footer>
+
 <script type="module" src="app.js"></script>
 </body>
 </html>
