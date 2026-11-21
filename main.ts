@@ -2,7 +2,7 @@
 // Copies app/ and screenshots/ into the output directory and writes
 // /output/dossier.json with make.fun's frontend dossier library.
 // Deterministic: the same repository writes the same dossier bytes.
-import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 import { buildDossier } from './vendor/makefun-frontend.ts';
@@ -28,8 +28,12 @@ if (!existsSync(appDir)) fail('app/ directory is missing from the repository');
 if (!existsSync(join(appDir, 'index.html'))) fail('app/index.html is missing');
 if (!existsSync(shotsDir)) fail('screenshots/ directory is missing from the repository');
 
-rmSync(outDir, { recursive: true, force: true });
+// The grader mounts the output directory as a volume, so removing the
+// directory itself fails EBUSY: clear its contents and keep the directory.
 mkdirSync(outDir, { recursive: true });
+for (const entry of readdirSync(outDir)) {
+  rmSync(join(outDir, entry), { recursive: true, force: true });
+}
 cpSync(appDir, join(outDir, 'app'), { recursive: true });
 cpSync(shotsDir, join(outDir, 'screenshots'), { recursive: true });
 
