@@ -1,14 +1,17 @@
-// Leonida Trophy Guide — entrypoint the grader runs (Node 22).
-// Copies app/ and screenshots/ into the output directory and writes
-// /output/dossier.json with make.fun's frontend dossier library.
-// Deterministic: the same repository writes the same dossier bytes.
+// gta6-trophy-guide-01 — build the submission dossier into the output dir.
+//
+// The grader mounts the output directory as a volume, so this program must
+// never remove the directory itself: deleting a mounted volume fails with
+// EBUSY. Instead we create it if needed and empty out whatever is inside it,
+// then copy the app and screenshots in and write dossier.json alongside them.
+
 import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 import { buildDossier } from './vendor/makefun-frontend.ts';
 
-const repoRoot = fileURLToPath(new URL('.', import.meta.url));
-const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
+const repoRoot: string = fileURLToPath(new URL('.', import.meta.url));
+const outDir: string = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
 
 const caps = {
   text_max_bytes: 163840,
@@ -22,21 +25,31 @@ function fail(message: string): never {
   process.exit(1);
 }
 
-const appDir = join(repoRoot, 'app');
-const shotsDir = join(repoRoot, 'screenshots');
-if (!existsSync(appDir)) fail('app/ directory is missing from the repository');
-if (!existsSync(join(appDir, 'index.html'))) fail('app/index.html is missing');
-if (!existsSync(shotsDir)) fail('screenshots/ directory is missing from the repository');
+const appDir: string = join(repoRoot, 'app');
+const shotsDir: string = join(repoRoot, 'screenshots');
 
-// The grader mounts the output directory as a volume, so removing the
-// directory itself fails EBUSY: clear its contents and keep the directory.
+if (!existsSync(appDir)) {
+  fail('app/ directory is missing from the repository');
+}
+if (!existsSync(join(appDir, 'index.html'))) {
+  fail('app/index.html is missing');
+}
+if (!existsSync(shotsDir)) {
+  fail('screenshots/ directory is missing from the repository');
+}
+
+// Make sure the output directory exists, then wipe only its contents.
+// The directory itself stays put — removing it would hit EBUSY on the
+// grader's mounted volume.
 mkdirSync(outDir, { recursive: true });
 for (const entry of readdirSync(outDir)) {
   rmSync(join(outDir, entry), { recursive: true, force: true });
 }
+
 cpSync(appDir, join(outDir, 'app'), { recursive: true });
 cpSync(shotsDir, join(outDir, 'screenshots'), { recursive: true });
 
-const dossier = buildDossier(outDir, caps);
-writeFileSync(join(outDir, 'dossier.json'), dossier);
-console.log('wrote ' + join(outDir, 'dossier.json') + ' (' + dossier.length + ' bytes)');
+const dossier: string = buildDossier(outDir, caps);
+const dossierPath: string = join(outDir, 'dossier.json');
+writeFileSync(dossierPath, dossier);
+console.log('wrote ' + dossierPath + ' (' + dossier.length + ' bytes)');
